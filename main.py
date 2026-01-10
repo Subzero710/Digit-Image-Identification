@@ -30,7 +30,7 @@ model_home.fit(X_train_scaled, y_train)
 model_sk_std = LogisticRegression(solver='lbfgs', max_iter=1000, C=1.0)
 model_sk_std.fit(X_train_scaled, y_train)
 
-#sklearn standard
+#sklearn regularisé
 model_sk_reg = LogisticRegression(solver='lbfgs', max_iter=1000, C=0.01)
 model_sk_reg.fit(X_train_scaled, y_train)
 
