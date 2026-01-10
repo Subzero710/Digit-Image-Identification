@@ -5,10 +5,6 @@ Created on Mon Jan  8 16:45:29 2024
 @author: JDION
 """
 
-"""
-Création de la classe GradientDescent utilisée durant l'intégralité de ce cours
-"""
-
 class GradientDescent:
     
     def __init__(self, gradient, learning_rate, max_iterations):

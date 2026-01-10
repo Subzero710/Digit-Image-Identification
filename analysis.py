@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import ConfusionMatrixDisplay
 
 
 def plot_coefficients(theta):
@@ -29,14 +28,8 @@ def plot_coefficients(theta):
 
 
 def plot_confusion(y_true, y_pred, title="Matrice de Confusion"):
-    """Affiche la matrice de confusion pour identifier les erreurs fréquentes."""
-    cm = confusion_matrix(y_true, y_pred)
-    plt.figure(figsize=(8, 6))
-    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
-    plt.xlabel('Prédictions')
-    plt.ylabel('Vraies Valeurs')
+    ConfusionMatrixDisplay.from_predictions(y_true, y_pred)
     plt.title(title)
-    plt.show()
 
 
 def analyze_errors(model, X_test, y_test, X_test_raw):
