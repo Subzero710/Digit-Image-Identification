@@ -1,12 +1,10 @@
 import matplotlib.pyplot as plt
 from sklearn.metrics import ConfusionMatrixDisplay
 
-
-def plot_coefficients(theta):
+def plot_coefficients(theta, title="Visualisation des coefficients appris (Poids par pixel)"):
     weights = theta[:, 1:]
-
     plt.figure(figsize=(12, 5))
-    plt.suptitle("Visualisation des coefficients appris (Poids par pixel)")
+    plt.suptitle(title)
 
     for i in range(10):
         plt.subplot(2, 5, i + 1)

@@ -76,10 +76,20 @@ def analyze_model(model, X, y, imgs, name, is_keras=False):
         print(f"guess = {y_pred[i]}, real = {y[i]}")
     show_examples(f"Réussites : {name}", imgs, y, y_pred, ok_idx)
 
+def theta_from_sklearn(clf):
+    return np.hstack([clf.intercept_.reshape(-1, 1), clf.coef_])
+
+def theta_from_keras_softmax(model):
+    W, b = model.layers[-1].get_weights()
+    return np.hstack([b.reshape(-1, 1), W.T])
+
 #lancement des analyses pour chaque modèle
 analyze_model(model_home, X_test_scaled, y_test, img_test, "From scratch")
 analyze_model(model_sk_std, X_test_scaled, y_test, img_test, "Sklearn Standard")
 analyze_model(model_sk_reg, X_test_scaled, y_test, img_test, "Sklearn Régularisé (L2)")
 analyze_model(model_nn, X_test_nn, y_test, img_test, "Keras", is_keras=True)
-plot_coefficients(model_home.theta)
+
+plot_coefficients(model_home.theta, "Poids par pixel — From scratch")
+plot_coefficients(theta_from_sklearn(model_sk_std), "Poids par pixel — Sklearn (C=1.0)")
+plot_coefficients(theta_from_sklearn(model_sk_reg), "Poids par pixel — Sklearn (C=0.01)")
 plt.show()
