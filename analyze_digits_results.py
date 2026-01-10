@@ -30,6 +30,21 @@ def report(name, y_true, y_pred, proba):
     print("\nClassification report:\n", classification_report(y_true, y_pred, digits=4))
     return cm
 
+def show_examples(title, imgs, y_true, y_pred, idx, max_n=16):
+    idx = idx[:max_n]
+    if len(idx) == 0:
+        return
+    n = len(idx)
+    cols = int(np.ceil(np.sqrt(n)))
+    rows = int(np.ceil(n / cols))
+    plt.figure()
+    for k, i in enumerate(idx, 1):
+        plt.subplot(rows, cols, k)
+        plt.imshow(imgs[i], cmap="gray")
+        plt.axis("off")
+        plt.title(f"g={y_pred[i]}, r={y_true[i]}")
+    plt.suptitle(title)
+
 def main():
     digits = load_digits()
     X = digits.data.astype(float)
@@ -78,18 +93,16 @@ def main():
     plt.xticks(range(10))
     plt.yticks(range(10))
 
-    idx = np.where(y_te != y_s)[0][:16]
-    if len(idx):
-        n = len(idx)
-        cols = int(np.ceil(np.sqrt(n)))
-        rows = int(np.ceil(n / cols))
-        plt.figure()
-        for k, i in enumerate(idx, 1):
-            plt.subplot(rows, cols, k)
-            plt.imshow(img_te[i], cmap="gray")
-            plt.axis("off")
-            plt.title(f"{y_te[i]}->{y_s[i]}")
-        plt.suptitle("Erreurs scratch")
+    err_s = np.where(y_te != y_s)[0]
+    ok_s = np.where(y_te == y_s)[0]
+    err_k = np.where(y_te != y_k)[0]
+    ok_k = np.where(y_te == y_k)[0]
+
+    show_examples("Erreurs scratch", img_te, y_te, y_s, err_s)
+    show_examples("Réussites scratch", img_te, y_te, y_s, ok_s)
+
+    show_examples("Erreurs sklearn", img_te, y_te, y_k, err_k)
+    show_examples("Réussites sklearn", img_te, y_te, y_k, ok_k)
 
     w_s = scratch.theta[1:].T
     w_k = sk.coef_
