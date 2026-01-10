@@ -1,18 +1,16 @@
-# -*- coding: utf-8 -*-
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import accuracy_score, log_loss, confusion_matrix, classification_report
 
 
 def per_class_acc(cm):
-    """Calcule la précision pour chaque chiffre individuellement."""
+    # on calcule la precision pour chaque chiffre
     d = cm.sum(axis=1)
     d[d == 0] = 1
     return np.diag(cm) / d
 
 
 def report(name, y_true, y_pred, proba):
-    """Génère un rapport textuel complet dans la console."""
     cm = confusion_matrix(y_true, y_pred, labels=np.arange(10))
     print(f"\n--- DIAGNOSTIC DÉTAILLÉ : {name} ---")
     print(f"Accuracy globale = {accuracy_score(y_true, y_pred):.4f}")
@@ -24,7 +22,7 @@ def report(name, y_true, y_pred, proba):
 
 
 def show_examples(title, imgs, y_true, y_pred, idx, max_n=12):
-    """Affiche une grille d'images pour analyser les succès ou les échecs."""
+    #on affiche des exemples de digits bien identifiés et mal identifiés
     idx = idx[:max_n]
     if len(idx) == 0:
         return
