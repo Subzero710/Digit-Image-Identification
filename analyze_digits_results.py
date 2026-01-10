@@ -4,15 +4,31 @@ from sklearn.datasets import load_digits
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score, log_loss, confusion_matrix, classification_report
 from softmax_regression_from_scratch import SoftmaxRegressionGD, add_bias
 
 TEST_SIZE = 0.2
 SEED = 0
+
 LR = 0.1
 EPOCHS = 5000
 TOL = 1e-6
 L2 = 0.0
+
+def per_class_acc(cm):
+    d = cm.sum(axis=1)
+    d[d == 0] = 1
+    return np.diag(cm) / d
+
+def report(name, y_true, y_pred, proba):
+    cm = confusion_matrix(y_true, y_pred, labels=np.arange(10))
+    print(f"\n--- {name} ---")
+    print(f"accuracy  = {accuracy_score(y_true, y_pred):.4f}")
+    print(f"log_loss  = {log_loss(y_true, proba, labels=np.arange(10)):.4f}")
+    print("per-class accuracy =", np.round(per_class_acc(cm), 4))
+    print("\nMatrice de confusion:\n", cm)
+    print("\nClassification report:\n", classification_report(y_true, y_pred, digits=4))
+    return cm
 
 def main():
     digits = load_digits()
@@ -33,14 +49,16 @@ def main():
 
     scratch = SoftmaxRegressionGD(lr=LR, epochs=EPOCHS, tol=TOL, l2=L2, seed=SEED, verbose=False)
     scratch.fit(X_tr_b, y_tr, C=10)
-    y_s = scratch.predict(X_te_b)
+    p_s = scratch.predict_proba(X_te_b)
+    y_s = p_s.argmax(axis=1)
 
     sk = LogisticRegression(max_iter=20000)
     sk.fit(X_tr, y_tr)
-    y_k = sk.predict(X_te)
+    p_k = sk.predict_proba(X_te)
+    y_k = p_k.argmax(axis=1)
 
-    cm_s = confusion_matrix(y_te, y_s, labels=np.arange(10))
-    cm_k = confusion_matrix(y_te, y_k, labels=np.arange(10))
+    cm_s = report("from_scratch_softmax", y_te, y_s, p_s)
+    cm_k = report("sklearn_logreg", y_te, y_k, p_k)
 
     plt.figure()
     plt.imshow(cm_s)
