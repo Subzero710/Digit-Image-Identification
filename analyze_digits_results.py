@@ -13,8 +13,8 @@ def per_class_acc(cm):
 def report(name, y_true, y_pred, proba):
     cm = confusion_matrix(y_true, y_pred, labels=np.arange(10))
     print(f"\n - Résultat pour : {name}")
-    print(f"Précision globale = {accuracy_score(y_true, y_pred):.4f}")
-    print(f"Erreur = {log_loss(y_true, proba, labels=np.arange(10)):.4f}")
+    print(f"Accuracy globale = {accuracy_score(y_true, y_pred):.4f}")
+    print(f"Entropie croisée (erreur) = {log_loss(y_true, proba, labels=np.arange(10)):.4f}")
     print("Précision par chiffre (0 à 9) :")
     print(np.round(per_class_acc(cm), 4))
     print("\nClassification rapport :\n", classification_report(y_true, y_pred, digits=4))

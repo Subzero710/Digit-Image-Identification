@@ -9,7 +9,7 @@ class ModelScratch:
         self.theta = None
 
     def _softmax(self, Z):
-        # fonction g_Theta(x) de notre model logistique
+        # fonction de prédiction(g_Theta) de notre model logistique "From Scratch"
         exp_Z = np.exp(Z - np.max(Z, axis=1, keepdims=True))
         g_Theta =exp_Z / np.sum(exp_Z, axis=1, keepdims=True)
         return g_Theta

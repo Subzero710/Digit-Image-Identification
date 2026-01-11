@@ -26,7 +26,7 @@ X_test_scaled = scaler.transform(X_test)
 
 # Entrainement de notre modele "From Scratch"
 # Paramètres ajustables
-model_home = ModelScratch(lr=0.1, iterations=1000)
+model_home = ModelScratch(lr=0.3, iterations=1000)
 model_home.fit(X_train_scaled, y_train)
 
 # sklearn standard
@@ -39,6 +39,7 @@ model_sk_reg = LogisticRegression(solver='lbfgs', max_iter=1000, C=0.01)
 model_sk_reg.fit(X_train_scaled, y_train)
 
 # keras (réseau de neurones)
+# Normalisation (nécessaire pour ce type d'algorithme)
 X_train_nn, X_test_nn = X_train / 16.0, X_test / 16.0
 model_nn = Sequential([
     Input(shape=(64,)),
@@ -50,7 +51,7 @@ model_nn.compile(
     loss="sparse_categorical_crossentropy",
     metrics=["accuracy"],
 )
-model_nn.fit(X_train_nn, y_train, epochs=20, batch_size=32, verbose=0)
+model_nn.fit(X_train_nn, y_train, epochs=200, batch_size=32, verbose=0)
 
 # analyse et affichage pour chaque model
 def analyze_model(model, X, y, imgs, name, is_keras=False):
