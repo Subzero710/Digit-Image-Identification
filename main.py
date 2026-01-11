@@ -25,7 +25,6 @@ X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
 # Entrainement de notre modele "From Scratch"
-# Paramètres ajustables
 model_home = ModelScratch(lr=0.3, iterations=1000)
 model_home.fit(X_train_scaled, y_train)
 
@@ -39,7 +38,6 @@ model_sk_reg = LogisticRegression(solver='lbfgs', max_iter=1000, C=0.01)
 model_sk_reg.fit(X_train_scaled, y_train)
 
 # keras (réseau de neurones)
-# Normalisation (nécessaire pour ce type d'algorithme)
 X_train_nn, X_test_nn = X_train / 16.0, X_test / 16.0
 model_nn = Sequential([
     Input(shape=(64,)),
