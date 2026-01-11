@@ -66,7 +66,7 @@ def analyze_model(model, X, y, imgs, name, is_keras=False):
             probas = model._softmax(X_bias @ model.theta.T)
 
     report(name, y, y_pred, probas)
-    plot_confusion(y, y_pred, f"Confusion : {name}")
+    plot_confusion(y, y_pred, f"Matrice de Confusion : {name}")
 
     err_idx = np.where(y_pred != y)[0]
     show_examples(f"Erreurs : {name}", imgs, y, y_pred, err_idx)
@@ -86,7 +86,8 @@ analyze_model(model_sk_std, X_test_scaled, y_test, img_test, "Sklearn Standard")
 analyze_model(model_sk_reg, X_test_scaled, y_test, img_test, "Sklearn Régularisé (Ridge)")
 analyze_model(model_nn, X_test_nn, y_test, img_test, "Keras", is_keras=True)
 
-plot_coefficients(model_home.theta, "Poids par pixel — From scratch")
-plot_coefficients(theta_from_sklearn(model_sk_std), "Poids par pixel — Sklearn (C=1.0)")
-plot_coefficients(theta_from_sklearn(model_sk_reg), "Poids par pixel — Sklearn (C=0.01)")
+plot_coefficients(model_home.theta, "Poids par pixel : From scratch")
+plot_coefficients(theta_from_sklearn(model_sk_std), "Poids par pixel : Sklearn (C=1.0)")
+plot_coefficients(theta_from_sklearn(model_sk_reg), "Poids par pixel :  Sklearn (C=0.01)")
+
 plt.show()

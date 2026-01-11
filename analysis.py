@@ -14,7 +14,6 @@ def plot_coefficients(theta, title="Visualisation des coefficients appris (Poids
         plt.axis('off')
 
     plt.tight_layout()
-    plt.show()
 
 
 def plot_confusion(y_true, y_pred, title="Matrice de Confusion"):

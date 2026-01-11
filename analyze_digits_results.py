@@ -12,17 +12,17 @@ def per_class_acc(cm):
 
 def report(name, y_true, y_pred, proba):
     cm = confusion_matrix(y_true, y_pred, labels=np.arange(10))
-    print(f"\nDIAGNOSTIC DÉTAILLÉ : {name}")
-    print(f"Accuracy globale = {accuracy_score(y_true, y_pred):.4f}")
-    print(f"Log Loss (Erreur) = {log_loss(y_true, proba, labels=np.arange(10)):.4f}")
+    print(f"\n - Résultat pour : {name}")
+    print(f"Précision globale = {accuracy_score(y_true, y_pred):.4f}")
+    print(f"Erreur = {log_loss(y_true, proba, labels=np.arange(10)):.4f}")
     print("Précision par chiffre (0 à 9) :")
     print(np.round(per_class_acc(cm), 4))
-    print("\nClassification report :\n", classification_report(y_true, y_pred, digits=4))
+    print("\nClassification rapport :\n", classification_report(y_true, y_pred, digits=4))
     return cm
 
 
 def show_examples(title, imgs, y_true, y_pred, idx, max_n=12):
-    #on affiche des exemples de digits bien identifiés et mal identifiés
+    #on affiche des exemples de digits mal identifiés (et bien identifiés)
     idx = idx[:max_n]
     if len(idx) == 0:
         return
@@ -35,6 +35,6 @@ def show_examples(title, imgs, y_true, y_pred, idx, max_n=12):
         plt.subplot(rows, cols, k)
         plt.imshow(imgs[i], cmap="gray")
         plt.axis("off")
-        plt.title(f"guess={y_pred[i]}, real={y_true[i]}", fontsize=9)
+        plt.title(f"prediction={y_pred[i]}, réel={y_true[i]}", fontsize=9)
     plt.suptitle(title)
     plt.tight_layout()
