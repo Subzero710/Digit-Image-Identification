@@ -69,16 +69,10 @@ def analyze_model(model, X, y, imgs, name, is_keras=False):
     plot_confusion(y, y_pred, f"Confusion : {name}")
 
     err_idx = np.where(y_pred != y)[0]
-    print(f"\nExemples d'erreurs : {name}")
-    for i in err_idx[:12]:
-        print(f"guess = {y_pred[i]}, real = {y[i]}")
     show_examples(f"Erreurs : {name}", imgs, y, y_pred, err_idx)
 
-    ok_idx = np.where(y_pred == y)[0]
-    print(f"\nExemples de réussites : {name}")
-    for i in ok_idx[:12]:
-        print(f"guess = {y_pred[i]}, real = {y[i]}")
-    show_examples(f"Réussites : {name}", imgs, y, y_pred, ok_idx)
+    # ok_idx = np.where(y_pred == y)[0]
+    # show_examples(f"Réussites : {name}", imgs, y, y_pred, ok_idx)
 
 def theta_from_sklearn(clf):
     return np.hstack([clf.intercept_.reshape(-1, 1), clf.coef_])
@@ -89,7 +83,7 @@ def theta_from_keras_softmax(model):
 
 analyze_model(model_home, X_test_scaled, y_test, img_test, "From scratch")
 analyze_model(model_sk_std, X_test_scaled, y_test, img_test, "Sklearn Standard")
-analyze_model(model_sk_reg, X_test_scaled, y_test, img_test, "Sklearn Régularisé (L2)")
+analyze_model(model_sk_reg, X_test_scaled, y_test, img_test, "Sklearn Régularisé (Ridge)")
 analyze_model(model_nn, X_test_nn, y_test, img_test, "Keras", is_keras=True)
 
 plot_coefficients(model_home.theta, "Poids par pixel — From scratch")
