@@ -72,8 +72,8 @@ def analyze_model(model, X, y, imgs, name, is_keras=False):
     err_idx = np.where(y_pred != y)[0]
     show_examples(f"Erreurs : {name}", imgs, y, y_pred, err_idx)
 
-    # ok_idx = np.where(y_pred == y)[0]
-    # show_examples(f"Réussites : {name}", imgs, y, y_pred, ok_idx)
+    ok_idx = np.where(y_pred == y)[0]
+    show_examples(f"Réussites : {name}", imgs, y, y_pred, ok_idx)
 
 def theta_from_sklearn(clf):
     return np.hstack([clf.intercept_.reshape(-1, 1), clf.coef_])
