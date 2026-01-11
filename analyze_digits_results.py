@@ -12,7 +12,7 @@ def per_class_acc(cm):
 
 def report(name, y_true, y_pred, proba):
     cm = confusion_matrix(y_true, y_pred, labels=np.arange(10))
-    print(f"\n--- DIAGNOSTIC DÉTAILLÉ : {name} ---")
+    print(f"\nDIAGNOSTIC DÉTAILLÉ : {name}")
     print(f"Accuracy globale = {accuracy_score(y_true, y_pred):.4f}")
     print(f"Log Loss (Erreur) = {log_loss(y_true, proba, labels=np.arange(10)):.4f}")
     print("Précision par chiffre (0 à 9) :")
@@ -35,7 +35,6 @@ def show_examples(title, imgs, y_true, y_pred, idx, max_n=12):
         plt.subplot(rows, cols, k)
         plt.imshow(imgs[i], cmap="gray")
         plt.axis("off")
-        # g = guess (prédiction), r = real (vérité)
         plt.title(f"guess={y_pred[i]}, real={y_true[i]}", fontsize=9)
     plt.suptitle(title)
     plt.tight_layout()

@@ -5,7 +5,7 @@
 
 Voici les trois piliers du code pour répondre aux exigences du projet :
 
-1. **La structure "Conteneur" :** Au lieu d'avoir des variables qui traînent partout, on regroupe tout dans une structure `LogitScratch`. Elle va stocker la matrice  (poids) de dimension . Cela permet de séparer proprement tes calculs "maison" de ceux de Scikit-Learn plus tard.
+1. **La structure "Conteneur" :** Au lieu d'avoir des variables qui traînent partout, on regroupe tout dans une structure `ModelScratch`. Elle va stocker la matrice  (poids) de dimension . Cela permet de séparer proprement tes calculs "maison" de ceux de Scikit-Learn plus tard.
 
 
 2. **L'implémentation de la "Vérité Mathématique" :** Le script suit scrupuleusement les formules de ton rapport :

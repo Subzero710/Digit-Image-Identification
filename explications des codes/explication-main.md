@@ -11,7 +11,7 @@ Ce script est le chef d'orchestre de ton projet. Il gère l'intégralité du pip
 
 Le script lance quatre entraînements distincts pour permettre une comparaison exhaustive :
 
-1. **Le modèle "Maison" (`LogitScratch`)** : Il utilise ta classe personnalisée qui fait appel à l'outil `GradientDescent` du professeur. C'est le cœur de ton projet "From Scratch".
+1. **Le modèle "Maison" (`ModelScratch`)** : Il utilise ta classe personnalisée qui fait appel à l'outil `GradientDescent` du professeur. C'est le cœur de ton projet "From Scratch".
 2. **Sklearn Standard** : Il sert de base de comparaison industrielle.
 3. **Sklearn Régularisé (Bonus L2)** : Il utilise un paramètre  pour imposer une forte pénalité sur les poids, répondant ainsi au point facultatif sur l'étude de la régularisation.
 4. **Keras (Bonus Deep Learning)** : Il entraîne un réseau de neurones avec une couche cachée de 16 neurones et une activation ReLU pour tester une méthode non-linéaire.

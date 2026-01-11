@@ -7,34 +7,38 @@ from sklearn.linear_model import LogisticRegression
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Input
 from tensorflow.keras.optimizers import Adam
-from model_scratch import LogitScratch
+
+from model_scratch import ModelScratch
 from analysis import plot_coefficients, plot_confusion
 from analyze_digits_results import report, show_examples
 
-#preparation des outils
+# Découpage du set de données : 80% entrainement / 20% evaluation
 digits = load_digits()
 X, y = digits.data, digits.target
 X_train, X_test, y_train, y_test, img_train, img_test = train_test_split(
     X, y, digits.images, test_size=0.2, random_state=42, stratify=y
 )
 
+# Standardisation x_std = (x - x_barre) / sigma
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
-#entrainement
-model_home = LogitScratch(lr=0.1, iterations=1000)
+# Entrainement de notre modele "From Scratch"
+# Paramètres ajustables
+model_home = ModelScratch(lr=0.1, iterations=1000)
 model_home.fit(X_train_scaled, y_train)
 
-#sklearn standard
+# sklearn standard
 model_sk_std = LogisticRegression(solver='lbfgs', max_iter=1000, C=1.0)
 model_sk_std.fit(X_train_scaled, y_train)
 
-#sklearn regularisé
+# sklearn regularisé
+# C=0.01 impose une forte pénalité Ridge pour stabiliser les poids
 model_sk_reg = LogisticRegression(solver='lbfgs', max_iter=1000, C=0.01)
 model_sk_reg.fit(X_train_scaled, y_train)
 
-# keras
+# keras (réseau de neurones)
 X_train_nn, X_test_nn = X_train / 16.0, X_test / 16.0
 model_nn = Sequential([
     Input(shape=(64,)),
@@ -48,7 +52,7 @@ model_nn.compile(
 )
 model_nn.fit(X_train_nn, y_train, epochs=20, batch_size=32, verbose=0)
 
-#analyse
+# analyse et affichage pour chaque model
 def analyze_model(model, X, y, imgs, name, is_keras=False):
     if is_keras:
         probas = model.predict(X, verbose=0)
@@ -83,7 +87,6 @@ def theta_from_keras_softmax(model):
     W, b = model.layers[-1].get_weights()
     return np.hstack([b.reshape(-1, 1), W.T])
 
-#lancement des analyses pour chaque modèle
 analyze_model(model_home, X_test_scaled, y_test, img_test, "From scratch")
 analyze_model(model_sk_std, X_test_scaled, y_test, img_test, "Sklearn Standard")
 analyze_model(model_sk_reg, X_test_scaled, y_test, img_test, "Sklearn Régularisé (L2)")
